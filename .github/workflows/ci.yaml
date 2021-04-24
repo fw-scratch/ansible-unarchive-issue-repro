@@ -5,9 +5,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  run-in-container-deb:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [latest, rolling, devel]
     steps:
     - uses: actions/checkout@v2
     - name: Run Ansible
-      run: bash repro.sh
+      run: bash repro.sh ${{ matrix.version }}
